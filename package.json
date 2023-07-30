@@ -1,0 +1,87 @@
+{
+	"private": true,
+	"version": "0.0.1",
+	"name": "sierpinski-triangle-react",
+	"description": "Sierpiński triangle implementation with React/TypeScript",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Constantiner/sierpinski-triangle-react.git"
+	},
+	"keywords": [
+		"React",
+		"TypeScript",
+		"Canvas",
+		"Sierpiński triangle",
+		"recursion"
+	],
+	"author": {
+		"name": "Konstantin Kovalev",
+		"email": "constantiner@gmail.com"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Constantiner/sierpinski-triangle-react/issues"
+	},
+	"homepage": "https://github.com/Constantiner/sierpinski-triangle-react#readme",
+	"dependencies": {
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0"
+	},
+	"devDependencies": {
+		"@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+		"@testing-library/jest-dom": "^5.17.0",
+		"@testing-library/react": "^14.0.0",
+		"@testing-library/user-event": "^14.4.3",
+		"@types/jest": "^29.5.3",
+		"@types/node": "^16.18.39",
+		"@types/react": "^18.2.17",
+		"@types/react-dom": "^18.2.7",
+		"@typescript-eslint/eslint-plugin": "^6.2.0",
+		"@typescript-eslint/parser": "^6.2.0",
+		"eslint": "^8.46.0",
+		"eslint-config-prettier": "^8.9.0",
+		"eslint-config-react-app": "^7.0.1",
+		"eslint-plugin-prettier": "^5.0.0",
+		"eslint-plugin-react": "^7.33.1",
+		"eslint-plugin-react-hooks": "^4.6.0",
+		"eslint-plugin-security": "^1.7.1",
+		"eslint-plugin-unicorn": "^48.0.1",
+		"husky": "^8.0.0",
+		"lint-staged": "^13.2.3",
+		"prettier": "^3.0.0",
+		"react-scripts": "^5.0.1",
+		"stylelint": "^15.10.2",
+		"stylelint-config-prettier": "^9.0.5",
+		"stylelint-config-recommended": "^13.0.0",
+		"stylelint-config-recommended-scss": "^12.0.0",
+		"stylelint-prettier": "^4.0.2",
+		"stylelint-scss": "^5.0.1",
+		"typescript": "^5.1.6"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"format": "npx prettier --write '**/*.{js,ts,jsx,tsx,css,scss,json,htm,html,yml,eslintrc,huskyrc,lintstagedrc,prettierrc,stylelintrc}'",
+		"lint": "npx tsc --noEmit && npx eslint '**/*.{js,jsx,ts,tsx}' && npx stylelint '**/*.{css,scss}'",
+		"lint-staged": "npx lint-staged",
+		"prepare": "husky install"
+	},
+	"eslintConfig": {
+		"extends": [
+			"react-app",
+			"react-app/jest"
+		]
+	},
+	"browserslist": {
+		"production": [
+			">0.2%",
+			"not dead",
+			"not op_mini all"
+		],
+		"development": [
+			"last 1 chrome version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	}
+}

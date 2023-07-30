@@ -1,0 +1,33 @@
+{
+	"printWidth": 120,
+	"useTabs": true,
+	"tabWidth": 4,
+	"trailingComma": "none",
+	"arrowParens": "avoid",
+	"overrides": [
+		{
+			"files": ".prettierrc",
+			"options": { "parser": "json" }
+		},
+		{
+			"files": ".eslintrc",
+			"options": { "parser": "json" }
+		},
+		{
+			"files": ".huskyrc",
+			"options": { "parser": "json" }
+		},
+		{
+			"files": ".lintstagedrc",
+			"options": { "parser": "json" }
+		},
+		{
+			"files": ".stylelintrc",
+			"options": { "parser": "json" }
+		},
+		{
+			"files": ".babelrc",
+			"options": { "parser": "json" }
+		}
+	]
+}
