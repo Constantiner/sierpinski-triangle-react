@@ -65,12 +65,6 @@
 		"lint-staged": "npx lint-staged",
 		"prepare": "husky install"
 	},
-	"eslintConfig": {
-		"extends": [
-			"react-app",
-			"react-app/jest"
-		]
-	},
 	"browserslist": {
 		"production": [
 			">0.2%",
