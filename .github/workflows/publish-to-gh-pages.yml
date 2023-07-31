@@ -29,7 +29,7 @@ jobs:
             - name: npm ci and build
               run: |
                   npm ci
-                  PUBLIC_URL=/ npm run build
+                  npm run build
             - name: deploy to gh-pages
               uses: peaceiris/actions-gh-pages@v3
               with:

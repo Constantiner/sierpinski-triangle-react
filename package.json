@@ -22,7 +22,7 @@
 	"bugs": {
 		"url": "https://github.com/Constantiner/sierpinski-triangle-react/issues"
 	},
-	"homepage": "https://Constantiner.github.io/sierpinski-triangle-react",
+	"homepage": "https://constantiner.github.io/sierpinski-triangle-react/",
 	"dependencies": {
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
