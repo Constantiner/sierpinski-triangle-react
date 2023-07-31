@@ -22,7 +22,6 @@
 	"bugs": {
 		"url": "https://github.com/Constantiner/sierpinski-triangle-react/issues"
 	},
-	"homepage": "https://constantiner.github.io/sierpinski-triangle-react/",
 	"dependencies": {
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
@@ -59,7 +58,7 @@
 		"typescript": "^5.1.6"
 	},
 	"scripts": {
-		"start": "PUBLIC_URL=/ react-scripts start",
+		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"format": "npx prettier --write '**/*.{js,ts,jsx,tsx,css,scss,json,htm,html,yml,eslintrc,huskyrc,lintstagedrc,prettierrc,stylelintrc}'",
 		"lint": "npx tsc --noEmit && npx eslint '**/*.{js,jsx,ts,tsx}' && npx stylelint '**/*.{css,scss}'",
