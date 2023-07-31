@@ -1,87 +1,7 @@
 import { useCallback, useEffect, useRef, type CanvasHTMLAttributes, type FunctionComponent } from "react";
-
-type FillStyle = string | CanvasGradient | CanvasPattern;
-type Coordinates = {
-	x: number;
-	y: number;
-};
-type TriangleCoordinates = [Coordinates, Coordinates, Coordinates];
-
-/**
- * Draws a triangle on the canvas.
- * @param context The canvas rendering context to draw on.
- * @param triangleCoordinates The coordinates of the triangle.
- * @param fillStyle The fill style to use for the triangle.
- */
-const drawTriangle = (
-	context: CanvasRenderingContext2D,
-	triangleCoordinates: TriangleCoordinates,
-	fillStyle: FillStyle
-): void => {
-	// Get the coordinates of the three points of the triangle.
-	const [firstCoordinate, secondCoordinate, thirdCoordinate] = triangleCoordinates;
-
-	// Set the fill style for the triangle.
-	context.fillStyle = fillStyle;
-
-	// Begin the path for the triangle and move to the first coordinate.
-	context.beginPath();
-	context.moveTo(firstCoordinate.x, firstCoordinate.y);
-
-	// Draw lines to the second and third coordinates and fill the path.
-	context.lineTo(secondCoordinate.x, secondCoordinate.y);
-	context.lineTo(thirdCoordinate.x, thirdCoordinate.y);
-	context.fill();
-};
-
-/**
- * Gets the real dimensions of the canvas.
- * @param context The canvas rendering context to get the dimensions from.
- * @returns An object containing the width and height of the canvas.
- */
-const getRealDimensions = (context: CanvasRenderingContext2D): { width: number; height: number } => {
-	// Get the bounding rectangle of the canvas.
-	const { width, height } = context.canvas.getBoundingClientRect();
-
-	// Get the device pixel ratio of the window.
-	const { devicePixelRatio: ratio = 1 } = window;
-
-	// Return the real dimensions of the canvas.
-	return {
-		width: width / ratio,
-		height: height / ratio
-	};
-};
-
-/**
- * Resizes the canvas to the display size.
- * @param context The canvas rendering context to resize.
- * @returns A boolean indicating whether the canvas was resized.
- */
-const resizeCanvasToDisplaySize = (context: CanvasRenderingContext2D): boolean => {
-	// Get the canvas element.
-	const canvas = context.canvas;
-
-	// Get the bounding rectangle of the canvas.
-	const { width, height } = canvas.getBoundingClientRect();
-
-	// Check if the canvas needs to be resized.
-	if (canvas.width !== width || canvas.height !== height) {
-		// Get the device pixel ratio of the window.
-		const { devicePixelRatio: ratio = 1 } = window;
-
-		// Resize the canvas and scale the context.
-		canvas.width = width;
-		canvas.height = height;
-		context.scale(ratio, ratio);
-
-		// Return true to indicate that the canvas was resized.
-		return true;
-	}
-
-	// Return false to indicate that the canvas was not resized.
-	return false;
-};
+import { useAnimation } from "./hooks/useAnimation";
+import { useCanvas } from "./hooks/useCanvas";
+import { drawTriangle, type Coordinates, type FillStyle, type TriangleCoordinates } from "./util/canvasUtil";
 
 /**
  * Recursively draws Sierpiński triangles within a bounding triangle.
@@ -172,91 +92,55 @@ const TRIANGLES_COLOR: FillStyle = "snow";
 
 // Define a canvas component that draws Sierpiński triangles.
 export const SierpinskiTriangle: FunctionComponent<CanvasHTMLAttributes<HTMLCanvasElement>> = properties => {
-	// Create a reference to the canvas element.
-	const canvasReference = useRef<HTMLCanvasElement>(null);
-
 	// Create a reference to the current triangles being drawn.
 	const currentTriangles = useRef<TriangleCoordinates[]>();
 
-	// Create a reference to the canvas rendering context.
-	const contextReference = useRef<CanvasRenderingContext2D>();
-
-	// Create a reference to the last timestamp to display animation with given FPS.
-	const lastTimeStampReference = useRef<number>();
+	const [canvasReference, contextReference, width, height] = useCanvas();
 
 	// Define a function to draw the Sierpiński triangles.
 	const drawTriangles = useCallback(() => {
 		// If there are current triangles and a canvas rendering context, draw the triangles.
 		if (currentTriangles.current && currentTriangles.current.length > 0 && contextReference.current) {
-			// Request the next animation frame.
-			window.requestAnimationFrame(drawTriangles);
-
-			// Get the current timestamp.
-			const timestamp = Date.now();
-
-			// If enough time has passed since the last frame, draw the triangles.
-			if (timestamp - lastTimeStampReference.current! > 1000 / FPS) {
-				// Draw the Sierpiński triangles inside the current base bounding triangles (next step of recursion).
-				currentTriangles.current = drawSierpinskiTriangles(
-					contextReference.current,
-					TRIANGLES_COLOR,
-					currentTriangles.current
-				);
-
-				// Update the last animation timestamp.
-				lastTimeStampReference.current = Date.now();
-			}
+			// Draw the Sierpiński triangles inside the current base bounding triangles (next step of recursion).
+			currentTriangles.current = drawSierpinskiTriangles(
+				contextReference.current,
+				TRIANGLES_COLOR,
+				currentTriangles.current
+			);
+			return true;
 		}
-	}, []);
+		return false;
+	}, [contextReference]);
+
+	const startAnimation = useAnimation(drawTriangles, FPS);
 
 	// Set up the canvas when the component mounts.
 	useEffect(() => {
-		// If there is no canvas rendering context, create one.
-		if (!contextReference.current) {
-			// Get the canvas element and its rendering context.
-			const canvas = canvasReference.current;
-			const context = canvas?.getContext("2d");
+		if (contextReference.current && width && height) {
+			// Calculate the height and base of the bounding triangle.
+			const boundingTriangleHeight = Math.min(height, (Math.tan(Math.PI / 3) * width) / 2);
+			const boundingTriangleBase = (boundingTriangleHeight * 2) / Math.tan(Math.PI / 3);
 
-			// If there is a rendering context, set up the canvas.
-			if (context) {
-				// Set the canvas rendering context reference.
-				contextReference.current = context;
+			// Calculate the coordinates of the base bounding triangle to place it in the center of canvas.
+			const baseBoundingTriangleCoordinates: TriangleCoordinates = [
+				{ x: width / 2, y: (height - boundingTriangleHeight) / 2 }, // top
+				{ x: (width - boundingTriangleBase) / 2, y: height - (height - boundingTriangleHeight) / 2 }, // bottom left
+				{ x: width - (width - boundingTriangleBase) / 2, y: height - (height - boundingTriangleHeight) / 2 } // bottom right
+			];
 
-				// Resize the canvas to the display size.
-				resizeCanvasToDisplaySize(context);
+			// Draw the base bounding triangle.
+			drawTriangle(contextReference.current, baseBoundingTriangleCoordinates, BACKGROUND_COLOR);
 
-				// Get the real dimensions of the canvas.
-				const { width, height } = getRealDimensions(context);
+			// Draw the initial Sierpiński triangle.
+			currentTriangles.current = drawSierpinskiTriangle(
+				contextReference.current,
+				baseBoundingTriangleCoordinates,
+				TRIANGLES_COLOR
+			);
 
-				// Calculate the height and base of the bounding triangle.
-				const boundingTriangleHeight = Math.min(height, (Math.tan(Math.PI / 3) * width) / 2);
-				const boundingTriangleBase = (boundingTriangleHeight * 2) / Math.tan(Math.PI / 3);
-
-				// Calculate the coordinates of the base bounding triangle to place it in the center of canvas.
-				const baseBoundingTriangleCoordinates: TriangleCoordinates = [
-					{ x: width / 2, y: (height - boundingTriangleHeight) / 2 }, // top
-					{ x: (width - boundingTriangleBase) / 2, y: height - (height - boundingTriangleHeight) / 2 }, // bottom left
-					{ x: width - (width - boundingTriangleBase) / 2, y: height - (height - boundingTriangleHeight) / 2 } // bottom right
-				];
-
-				// Draw the base bounding triangle.
-				drawTriangle(context, baseBoundingTriangleCoordinates, BACKGROUND_COLOR);
-
-				// Draw the initial Sierpiński triangle.
-				currentTriangles.current = drawSierpinskiTriangle(
-					context,
-					baseBoundingTriangleCoordinates,
-					TRIANGLES_COLOR
-				);
-
-				// Request the first animation frame.
-				window.requestAnimationFrame(drawTriangles);
-
-				// Set the initial timestamp to calculate next animated drawing.
-				lastTimeStampReference.current = Date.now();
-			}
+			startAnimation();
 		}
-	}, [drawTriangles]);
+	}, [contextReference, height, startAnimation, width]);
 
 	// Return the canvas element.
 	return <canvas ref={canvasReference} {...properties} />;
