@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, type CanvasHTMLAttributes, type FunctionComponent } from "react";
-import { useAnimation } from "./hooks/useAnimation";
-import { useCanvas } from "./hooks/useCanvas";
-import { drawTriangle, type Coordinates, type FillStyle, type TriangleCoordinates } from "./util/canvasUtil";
+import { useAnimation } from "../hooks/useAnimation";
+import { useCanvas } from "../hooks/useCanvas";
+import { drawTriangle, type Coordinates, type FillStyle, type TriangleCoordinates } from "../util/canvasUtil";
+import "./sierpinskiTriangle.scss";
 
 /**
  * Recursively draws Sierpiński triangles within a bounding triangle.
@@ -143,5 +144,5 @@ export const SierpinskiTriangle: FunctionComponent<CanvasHTMLAttributes<HTMLCanv
 	}, [contextReference, height, startAnimation, width]);
 
 	// Return the canvas element.
-	return <canvas ref={canvasReference} {...properties} />;
+	return <canvas className="sierpinski-triangle-canvas" ref={canvasReference} {...properties} />;
 };
