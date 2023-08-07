@@ -5,9 +5,9 @@ import { SierpinskiTriangle } from "./components/sierpinskiTriangle";
 
 export const App: FunctionComponent<Record<string, never>> = () => {
 	return (
-		<div className="sierpinski-triangle">
+		<main className="sierpinski-triangle">
 			<SierpinskiTriangle />
 			<GithubLink />
-		</div>
+		</main>
 	);
 };
