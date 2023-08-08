@@ -1,6 +1,6 @@
 {
 	"private": true,
-	"version": "0.0.1",
+	"version": "1.0.0",
 	"name": "sierpinski-triangle-react",
 	"description": "Sierpiński triangle implementation with React/TypeScript",
 	"repository": {
