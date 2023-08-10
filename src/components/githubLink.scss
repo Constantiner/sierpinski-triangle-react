@@ -29,9 +29,9 @@
 		transform: rotate(45deg);
 		transition: transform 0.2s ease-in-out;
 		color: white;
+	}
 
-		&:hover {
-			transform: rotate(405deg);
-		}
+	&:hover &--icon {
+		transform: rotate(405deg);
 	}
 }
