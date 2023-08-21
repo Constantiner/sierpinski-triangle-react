@@ -49,6 +49,12 @@ jobs:
                   npm ci
                   npm run build
 
+            - name: Upload React App build artifact
+              uses: actions/upload-artifact@v3
+              with:
+                  name: react-sierpinski-triangle
+                  path: ./build
+
     deploy:
         environment:
             name: github-pages
@@ -59,6 +65,11 @@ jobs:
 
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
+            - name: Download React App build artifact
+              uses: actions/download-artifact@v3
+              with:
+                  name: react-sierpinski-triangle
+
             - name: Setup Pages
               uses: actions/configure-pages@v3
 
