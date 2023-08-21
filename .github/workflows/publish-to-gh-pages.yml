@@ -69,6 +69,7 @@ jobs:
               uses: actions/download-artifact@v3
               with:
                   name: react-sierpinski-triangle
+                  path: ./build
 
             - name: Setup Pages
               uses: actions/configure-pages@v3
