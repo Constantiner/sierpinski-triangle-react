@@ -61,7 +61,7 @@
 	},
 	"scripts": {
 		"start": "PUBLIC_URL=/ react-scripts start",
-		"build": "react-scripts build",
+		"build": "PUBLIC_URL=./ react-scripts build",
 		"format": "npx prettier --write '**/*.{js,ts,jsx,tsx,css,scss,json,htm,html,yml,eslintrc,huskyrc,lintstagedrc,prettierrc,stylelintrc}'",
 		"lint": "npx tsc --noEmit && npx eslint '**/*.{js,jsx,ts,tsx}' && npx stylelint '**/*.{css,scss}'",
 		"lint-staged": "npx lint-staged",
