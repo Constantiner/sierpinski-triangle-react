@@ -1,8 +1,8 @@
 {
 	"plugins": ["stylelint-scss", "stylelint-prettier"],
-	"extends": ["stylelint-config-recommended", "stylelint-config-recommended-scss", "stylelint-config-prettier"],
+	"extends": ["stylelint-config-recommended", "stylelint-config-recommended-scss"],
 	"rules": {
-		"number-leading-zero": null,
+		"prettier/prettier": true,
 		"selector-pseudo-class-no-unknown": [
 			true,
 			{
